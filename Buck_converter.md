@@ -1,4 +1,4 @@
-# ⚡ Buck Converter Simulation in LTspice
+# Buck Converter Simulation in LTspice
 
 > Design and transient simulation of a step-down (buck) DC-DC converter using a MOSFET switch, Schottky diode, LC filter and resistive load — **12 V input, 35 % duty cycle, 2.5 kHz switching frequency.**
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Introduction](#-introduction)
 2. [Buck Converter Theory](#-buck-converter-theory)
@@ -28,9 +28,9 @@
 
 ---
 
-## 📌 Introduction
+## Introduction
 
-A **buck converter** is a switching DC-DC regulator that produces an output voltage **lower** than its input voltage with high efficiency. It is widely used in battery-powered devices, microcontroller supplies, LED drivers, and point-of-load regulators.
+A **buck converter** is a type of switching DC-to-DC converter that delivers an output voltage which is **less** than its input voltage. This converter finds extensive application in battery-operated equipment, power to microcontrollers, LED driving circuits, and point-of-load regulation.
 
 This project simulates a buck converter in **LTspice** and studies:
 
@@ -41,7 +41,7 @@ This project simulates a buck converter in **LTspice** and studies:
 
 ---
 
-## 📖 Buck Converter Theory
+## Buck Converter Theory
 
 ### Working principle
 
@@ -49,8 +49,8 @@ A buck converter has two operating states in every switching period **T**:
 
 | State | Switch (M1) | Diode (D1) | What happens |
 |-------|-------------|------------|--------------|
-| **ON** (0 → D·T) | Closed | Reverse biased (off) | Source feeds the inductor and load. Inductor current rises and energy is stored in the magnetic field. |
-| **OFF** (D·T → T) | Open | Forward biased (on) | Inductor keeps current flowing through the diode (freewheeling). Stored energy is released to the load and current falls. |
+| **ON** (0 → D·T) | Closed | Reverse biased (off) | Source charge the inductor and load. Inductor current rises and energy is stored in the magnetic field. |
+| **OFF** (D·T → T) | Open | Forward biased (on) | Inductor keeps current flowing through the diode (discharging). Stored energy is released to the load and current falls. |
 
 The capacitor **C1** smooths the pulsating inductor current so the load sees an almost-DC voltage.
 
@@ -90,7 +90,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ---
 
-## 🔌 Circuit Description
+## Circuit Description
 
 ![Buck converter schematic](images/01_schematic.png)
 
@@ -110,7 +110,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ---
 
-## 🧮 Design Parameters
+## Design Parameters
 
 | Parameter | Value |
 |-----------|-------|
@@ -127,11 +127,11 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 | Critical inductance (L_crit) | 0.65 × 10 × 0.4 ms / 2 = **1.3 mH** |
 | Simulation time | 5 ms |
 
-> ⚠️ Since L = 100 µH is far below L_crit = 1.3 mH, the converter is expected to operate in **DCM** (confirmed in Result 2).
+> Since L = 100 µH is far below L_crit = 1.3 mH, the converter is expected to operate in **DCM** (confirmed in Result 2).
 
 ---
 
-## 📊 Simulation Results
+## Simulation Results
 
 ### Result 1 – Gate Pulse & Output Voltage
 
@@ -141,10 +141,10 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 **Explanation**
 
-- The **green trace** is the 0 – 10 V PWM gate signal with a 0.4 ms period (2.5 kHz), giving 12 – 13 pulses in 5 ms.
-- The **magenta trace** is the output voltage. It rises from 0 V during start-up, **overshoots to about 8.1 V** at roughly 0.2 ms, then settles into a steady ripple by around 1 ms.
-- In steady state the output swings between approximately **5.1 V and 6.5 V**, with an average near **5.7 V**.
-- The output rises while the switch is on (inductor charging the capacitor) and falls while the switch is off (capacitor discharging into the load) — the characteristic **sawtooth-like ripple** of a buck converter.
+-**Green trace:** It is the 0-10 V PWM gate signal with a period of 0.4 ms (2.5 kHz), resulting in **12-13 pulses in 5 ms**.
+- **Magenta trace**: Output voltage starts rising from 0 V when the circuit is turned on, **reaches a value of about 8.1 V in overshoot around 0.2 ms**, and finally reaches a steady ripple around 1 ms.
+- In the steady state, the output oscillates between **5.1 V and 6.5 V, with the average being about 5.7 V**.
+- Output increases when the switch is closed (capacitor charges through the inductor), and decreases when the switch is open (capacitor discharges through the load) resulting in the characteristic **sawtooth-shaped ripple** of a buck converter.
 
 ---
 
@@ -156,10 +156,10 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 **Explanation**
 
-- At start-up the capacitor is empty, so the inductor current surges to a **peak of about 7 A** in the first pulse (inrush while charging C1).
-- In steady state, the current in each cycle **ramps up to about 2.3 – 2.4 A** and then **falls back to 0 A**, staying at zero for part of the period.
-- This "triangle then flat zero" shape proves the converter is operating in **Discontinuous Conduction Mode (DCM)**, as predicted by `L < L_crit`.
-- Average inductor current ≈ ½ × 2.4 A × (≈0.2 ms / 0.4 ms) ≈ **0.6 A**, which agrees with the load current `Vout / R ≈ 5.7 / 10 ≈ 0.57 A`.
+- As the circuit starts, the capacitor will be discharged and therefore the current through the inductor peaks at **about 7 A** on the first pulse (inrush when C1 charges).
+- The current in each cycle **increases to 2.3 - 2.4 A** and then **decreases to 0 A** before remaining constant at zero for a portion of the period.
+- The waveforms above show the current is increasing and then falling to zero, thus the circuit operates in **Discontinuous Conduction Mode (DCM)**, as expected from `L < L_crit`.
+- Inductor current average ≈ ½ × 2.4 A × (≈ 0.2 ms / 0.4 ms) ≈ **0.6 A**, which matches the load current `Vout / R ≈ 5.7 / 10 ≈ 0.57 A`.
 
 ---
 
@@ -175,11 +175,10 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 | V(n003) | 5.0879 V | 6.4598 V | **1.3718 V** |
 
 **Explanation**
-
-- The cursors give a **peak-to-peak output ripple of ≈ 1.37 V**.
-- The rising interval between minimum and maximum is ≈ **148 µs**, which is close to the 140 µs on-time of the switch — the output climbs only while energy is being delivered.
-- *(Note: the 6.77 kHz "frequency" displayed in the cursor box is just the inverse of the cursor spacing, not the switching frequency. The true switching frequency is 2.5 kHz.)*
-- The ripple is large (~24 % of the average output) because C1 is relatively small and the switching frequency is low.
+- Cursors have a **ripple of ≈ 1.37 V** from peak to peak.
+- The time interval of the ascending portion, from the minimum to the maximum value, is ≈ **148 µs**, which is nearly the 140 µs on-time of the switch, since the output voltage increases only when energy is supplied.
+- *(Note: the "frequency" of 6.77 kHz shown in the cursor box is the reciprocal of the cursor spacing, not the switching frequency, which is 2.5 kHz).*
+- The ripple is quite large (~24% of the output voltage) due to the small value of capacitor C1 and the low switching frequency.
 
 ---
 
@@ -195,15 +194,14 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 | V(n003) | 5.0878 V | 6.4695 V | **1.3817 V** |
 
 **Explanation**
-
-- Zooming in shows the output sitting flat at its minimum (≈ 5.09 V), then rising smoothly to its maximum (≈ 6.47 V) over ≈ 146 µs, and beginning to fall again.
-- The flat start corresponds to the interval where the inductor current is zero and the capacitor alone supplies the load.
-- The rise has a smooth, rounded profile because the inductor current ramps linearly and is integrated by the capacitor.
-- The result (1.38 V ripple) matches the earlier measurement (1.37 V), confirming consistent steady-state behaviour.
+- Looking closer, we see that the output starts flat at its minimum (≈ 5.09 V) and rises steadily to its maximum (≈ 6.47 V) in ≈ 146 µs before starting to decrease again.
+- This flat portion represents the time when there is no inductor current, and the capacitor provides the load current alone.
+- The increase has a smooth curve due to the linear increase in the inductor current and the integrating effect of the capacitor.
+- The outcome (1.38 V ripple) agrees well with the earlier result (1.37 V).
 
 ---
 
-## 📋 Result Summary Table
+## Result Summary Table
 
 | Quantity | Value |
 |----------|-------|
@@ -222,36 +220,20 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ---
 
-## 🔍 Discussion: Why Is Vout Higher Than D × Vin?
+## Discussion: Why Is Vout Higher Than D × Vin?
 
 The simulated average output (~5.7 V) is higher than the ideal CCM value of 4.2 V. Two effects explain this:
 
 1. **Discontinuous conduction mode.** The CCM formula `Vout = D × Vin` only holds when inductor current never reaches zero. In DCM the output voltage becomes higher than `D × Vin` for the same duty cycle, since the load gets energy from the inductor and capacitor without the diode clamping the switch node for the full off-time.
 
-2. **Gate drive limitation of the high-side N-MOSFET.** The gate source V1 is referenced to ground, so the MOSFET only conducts while `Vgs = 10 V − Vsource` stays above the threshold voltage. The switch node therefore cannot rise all the way to 12 V; it is limited to roughly 8 V, which is consistent with the ≈ 8.1 V start-up peak seen in Figure 2. The *effective* input is lower than 12 V, which pulls the result down from the DCM value you would get with a full 12 V.
+2. **Gate drive limitation of the high-side N-MOSFET.** As the source of the gate is V1, the MOSFET will conduct only when `Vgs = 10 V − Vsource` exceeds the threshold voltage. Therefore, the switch node will be unable to reach 12 V; it will stop at about 8 V, just like the ≈ 8.1 V peak that is achieved at the beginning in Figure 2. The effective input voltage is less than 12 V, bringing the value below the one for DCM.
 
-The final ≈ 5.7 V is the combined outcome of these effects plus small diode and MOSFET conduction losses. (Treat this explanation as the likely cause; it can be verified by probing the switch node voltage `V(n001)` or by using a floating/bootstrapped gate drive and comparing.)
-
----
-
-## ▶️ How to Run the Simulation
-
-1. Install [LTspice](https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html).
-2. Clone this repository:
-   ```bash
-   git clone https://github.com/<your-username>/<your-repo-name>.git
-   ```
-3. Open `Buck_Converter.asc` in LTspice.
-4. Click **Run** (▶) — the `.tran 5m` directive is already set.
-5. Click on nodes/components to plot:
-   - `V(n004)` – gate pulse
-   - `V(n003)` – output voltage
-   - `I(L2)` – inductor current
-6. Use **Ctrl + left-click** on the waveform name to place measurement cursors.
+The final ≈ 5.7 V is the combined outcome of these effects plus small diode and MOSFET conduction losses. 
 
 ---
 
-## 🗂 Repository Structure
+
+## Repository Structure
 
 ```
 Buck-Converter-LTspice/
@@ -269,22 +251,19 @@ Buck-Converter-LTspice/
 
 ---
 
-## 🚀 Possible Improvements
+## Possible Improvements
 
 - **Increase L to ≥ 1.3 mH** so the converter runs in CCM and `Vout` approaches the expected 4.2 V.
 - **Increase C1 or switching frequency** (e.g. 50 – 100 kHz) to reduce the ~1.4 V ripple dramatically.
-- **Use a proper gate driver** (bootstrap or P-channel high-side switch) so the MOSFET can switch the full 12 V.
 - **Add closed-loop control** (PWM controller with feedback) to regulate the output at a fixed target voltage.
 - **Replace the diode with a synchronous MOSFET** to improve efficiency.
 - Add **efficiency, load-step and line-step** analyses.
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 
-A buck converter was designed and simulated in LTspice with Vin = 12 V, D = 35 %, f = 2.5 kHz, L = 100 µH, C = 100 µF and R = 10 Ω. The simulation demonstrated correct step-down behaviour: the 12 V input was converted to an average output of about **5.7 V**, with a **1.37 V peak-to-peak ripple** and a start-up overshoot of about 8.1 V. The inductor current showed a 2.4 A steady-state peak and returned to zero each cycle, confirming **discontinuous conduction mode**, which is expected since the 100 µH inductor is well below the 1.3 mH critical value.
-
-The output was higher than the ideal `D × Vin = 4.2 V` because of DCM operation and the limited gate drive of the ground-referenced high-side MOSFET. The results also show that a low switching frequency and small filter components give large ripple. For a practical design, increasing the inductance, raising the switching frequency, adding a proper gate driver and using closed-loop control would give a lower-ripple, well-regulated output.
+Design and simulation of a Buck Converter using LTSpice with values: Vin = 12 V, D = 35%, f = 2.5 kHz, L = 100 µH, C = 100 µF, and R = 10Ω was done, showing step-down characteristics. 12V input voltage was converted to an average output voltage of **5.7 V** with a **peak-to-peak ripple voltage of 1.37 V** and a start-up overshoot of 8.1 V. The Inductor current had a peak current of 2.4A and zero current per cycle showing that the converter operates on **Discontinuous Conduction Mode** since the inductor value is less than 1.3mH.
 
 Overall, the project verifies the fundamental operation of the buck converter — switching, energy storage in the inductor, freewheeling through the diode and smoothing by the output capacitor — and highlights the key design trade-offs among inductance, capacitance, frequency and conduction mode.
 
@@ -294,5 +273,3 @@ Overall, the project verifies the fundamental operation of the buck converter �
 
 **Arpit Jain**
 *Power Electronics – Buck Converter Simulation Project*
-
-⭐ If you find this useful, consider starring the repository!
