@@ -92,7 +92,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ## Circuit Description
 
-![Buck converter schematic](images/01_schematic.png)
+![Buck converter schematic](Simulation_Results/Buck_converter_sch.png)
 
 *Figure 1 – LTspice schematic of the buck converter.*
 
@@ -135,7 +135,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ### Result 1 – Gate Pulse & Output Voltage
 
-![Gate pulse and output voltage](images/02_gate_and_output_voltage.png)
+![Gate pulse and output voltage](Simulation_Results/Gate_output_voltage.png)
 
 *Figure 2 – Gate drive V(n004) in green and output voltage V(n003) in magenta, 0 – 5 ms.*
 
@@ -150,7 +150,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ### Result 2 – Inductor Current
 
-![Inductor current](images/03_inductor_current.png)
+![Inductor current](Simulation_Results/Inductor_current.png)
 
 *Figure 3 – Inductor current I(L2), 0 – 5 ms.*
 
@@ -165,7 +165,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ### Result 3 – Output Voltage Ripple (Cursor Measurement)
 
-![Output ripple with cursors](images/04_output_ripple_cursors.png)
+![Output ripple with cursors](Simulation_Results/Output_wave.png)
 
 *Figure 4 – Output voltage V(n003) with cursors placed on one minimum and one maximum.*
 
@@ -184,7 +184,7 @@ If `L < L_crit`, the inductor current falls to zero during each cycle and the co
 
 ### Result 4 – Zoomed View of One Switching Cycle
 
-![Zoomed output rise](images/05_output_zoomed_rise.png)
+![Zoomed output rise](Simulation_Results/Vout.png)
 
 *Figure 5 – Zoomed plot of V(n003) between 2.40 ms and 2.56 ms.*
 
